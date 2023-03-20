@@ -1,0 +1,48 @@
+<html lang="en">
+
+<head>
+    <title>Ping Pong</title>
+    <link href="./index.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+
+
+    <canvas id="background"></canvas>
+
+    <div class="info-box">
+        <input type="checkbox" id="switch" /><label for="switch">Toggle</label>
+        <div class="form-group">
+            <input type="text" class="form-input" id="name" placeholder="Your name" required />
+            <button class="btn draw-border" id="start-btn">Join</button>
+        </div>
+    </div>
+    <div class="canvas-container">
+        <div>
+            <div class="player-data">
+                <div class="player-1-data">
+                    <p id="player1"></p>
+                    <p id="score1">0</p>
+                </div>
+                <div class="player-2-data">
+                    <p id="score2">0</p>
+                    <p id="player2"></p>
+                </div>
+            </div>
+            <div class="wrapper">
+                <canvas id="container" width="1024" height="512"></canvas>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./index.js"></script>
+    <script src="./star_shower.js"></script>
+</body>
+
+</html>
