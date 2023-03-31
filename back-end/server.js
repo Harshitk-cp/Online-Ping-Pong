@@ -5,9 +5,25 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 const path = require('path');
 const bodyParser = require('body-parser');
-const { Socket } = require('socket.io');
 const PORT = 3080;
 
+const canvas = {
+    width: 1024,
+    height: 512
+};
+
+let loser = null;
+
+const gameState = {
+    players: {},
+    ball: {
+        x: canvas.width / 2,
+        y: canvas.height / 2,
+        radius: 10,
+        velocityX: 2,
+        velocityY: -2,
+    }
+}
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
@@ -25,25 +41,6 @@ app.use((err, req, res, next) => {
     res.status(err.status || 500);
     res.send(err.message || 'Internal server error');
 });
-
-const canvas = {
-    width: 1024,
-    height: 512
-};
-
-let loser = null;
-
-const gameState = {
-    players: {},
-    ball: {
-        x: canvas.width / 2,
-        y: canvas.height / 2,
-        radius: 10,
-        velocityX: 2,
-        velocityY: -2,
-        speed: 20,
-    }
-}
 
 server.listen(PORT, () => {
     console.log('Server is live on PORT:', PORT);
@@ -165,21 +162,23 @@ setInterval(() => {
         io.sockets.emit('state', gameState);
     }
 
+    function collision(b, p) {
+        const paddleTop = p.y;
+        const paddleBottom = p.y + p.height;
+        const paddleLeft = p.x;
+        const paddleRight = p.x + p.width;
+
+        const ballTop = b.y - b.radius - 5;
+        const ballBottom = b.y + b.radius + 5;
+        const ballLeft = b.x - b.radius - 5;
+        const ballRight = b.x + b.radius + 5;
+
+        return paddleLeft < ballRight && paddleTop < ballBottom && paddleRight > ballLeft && paddleBottom > ballTop;
+    }
+
 }, 1000 / 60);
 
 
-
-
-
-function collision(b, p) {
-
-
-    if (b.x - b.radius <= p.x + p.width && b.x + b.radius >= p.x && b.y > p.y && b.y < p.y + p.height) {
-        return true;
-    }
-
-    return false;
-}
 
 function resetBall() {
 

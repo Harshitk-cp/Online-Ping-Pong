@@ -94,6 +94,8 @@ input[type=checkbox] {
 label {
     align-items: end;
     cursor: pointer;
+    margin-top: 10;
+    margin-right: 10;
     text-indent: -9999px;
     width: 64px;
     height: 32px;

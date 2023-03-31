@@ -1,12 +1,20 @@
 const canvas = document.getElementById("container");
 const ctx = canvas.getContext("2d");
+
 const score1 = document.getElementById("score1");
 const score2 = document.getElementById("score2");
 const player1 = document.getElementById("player1");
 const player2 = document.getElementById("player2");
+
 const ballRadius = 30;
+
 const socket = io.connect(location.href);
 let playerID = "";
+
+let globalState = {
+    players: {},
+    ball: {}
+}
 
 document.getElementById("start-btn").addEventListener("click", () => {
     const name = document.getElementById("name").value;
@@ -31,11 +39,6 @@ socket.on("connect", () => {
     socket.emit('newPlayer', { width: 1024, height: 512, id: playerID });
 });
 
-let globalState = {
-    players: {},
-    ball: {}
-}
-
 socket.on('state', (gameState) => {
 
     globalState = gameState;
@@ -47,13 +50,14 @@ let lastFpsUpdate = 0;
 
 function draw() {
     const time = performance.now();
+
     if (time - lastFpsUpdate >= 1e3) {
         rFps = fps;
         fps = 0;
         lastFpsUpdate = time;
     }
-    fps += 1;
 
+    fps += 1;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.font = '16px 600 Arial';
@@ -93,13 +97,17 @@ function draw() {
         }
 
     })
+
     const leftPlayer = Object.keys(globalState.players)[0];
+
     if (leftPlayer === playerID) {
         createBall(globalState.ball.x, globalState.ball.y)
     } else {
         createBall(1024 - globalState.ball.x, globalState.ball.y)
     }
+
     window.requestAnimationFrame(draw);
+
 }
 
 ctx.lineWidth = 4;
@@ -132,8 +140,6 @@ function createBall(x, y) {
         );
     }
 
-    // ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
-    // ctx.fill();
     ctx.restore();
 }
 
