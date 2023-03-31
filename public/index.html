@@ -8,12 +8,12 @@
 
 <body>
 
-
-
     <canvas id="background"></canvas>
-
+    <div class="switch">
+        <input type="checkbox" id="toggle" />
+        <label for="toggle">Toggle</label>
+    </div>
     <div class="info-box">
-        <input type="checkbox" id="switch" /><label for="switch">Toggle</label>
         <div class="form-group">
             <input type="text" class="form-input" id="name" placeholder="Your name" required />
             <button class="btn draw-border" id="start-btn">Join</button>
@@ -36,9 +36,6 @@
             </div>
         </div>
     </div>
-
-
-
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="./index.js"></script>
