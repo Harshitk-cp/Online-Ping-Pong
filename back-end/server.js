@@ -6,7 +6,7 @@ const io = require('socket.io')(server);
 const path = require('path');
 const bodyParser = require('body-parser');
 const { Socket } = require('socket.io');
-const PORT = 3000;
+const PORT = 3080;
 
 
 app.use(express.static(path.join(__dirname, '..', 'public')));
@@ -45,7 +45,7 @@ const gameState = {
     }
 }
 
-server.listen(PORT, '0.0.0.0', () => {
+server.listen(PORT, () => {
     console.log('Server is live on PORT:', PORT);
 });
 
@@ -147,6 +147,10 @@ setInterval(() => {
 
         }
 
+        if (gameState.ball.velocityX > 20) {
+            resetBall();
+        }
+
         if ((player.x == 994 && gameState.ball.x + gameState.ball.radius > canvas.width)) {
             loser = player;
         }
@@ -162,6 +166,10 @@ setInterval(() => {
     }
 
 }, 1000 / 60);
+
+
+
+
 
 function collision(b, p) {
 

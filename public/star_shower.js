@@ -1,7 +1,7 @@
 let canvas2 = document.getElementById('background');
 let c = canvas2.getContext('2d');
 
-let toggle = document.getElementById('switch');
+let toggle = document.getElementById('toggle');
 
 
 canvas2.width = window.innerWidth;
@@ -276,7 +276,7 @@ function animate() {
     c.fillRect(0, canvas2.height - groundHeight, canvas2.width, groundHeight);
 
 
-    var isChecked = document.getElementById("switch").checked;
+    var isChecked = document.getElementById("toggle").checked;
 
     if (isChecked) {
         for (var i = 0; i < stars.length; i++) {

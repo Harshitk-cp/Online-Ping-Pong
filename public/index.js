@@ -4,7 +4,7 @@ const score1 = document.getElementById("score1");
 const score2 = document.getElementById("score2");
 const player1 = document.getElementById("player1");
 const player2 = document.getElementById("player2");
-const ballRadius = 10;
+const ballRadius = 30;
 const socket = io.connect(location.href);
 let playerID = "";
 
@@ -39,7 +39,6 @@ let globalState = {
 socket.on('state', (gameState) => {
 
     globalState = gameState;
-    console.log({ globalState })
 });
 
 let fps = 0;
@@ -103,8 +102,6 @@ function draw() {
     window.requestAnimationFrame(draw);
 }
 
-draw();
-
 ctx.lineWidth = 4;
 ctx.strokeStyle = "white";
 ctx.setLineDash([20, 5]);
@@ -113,14 +110,34 @@ ctx.moveTo(512, 0);
 ctx.lineTo(512, 512);
 ctx.stroke();
 
-function createBall(x, y) {
+const BALL_IMAGE = new Image();
+BALL_IMAGE.src = 'resources/ball_icon.png';
 
+function createBall(x, y) {
+    ctx.save()
     ctx.beginPath();
     ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-    ctx.fillStyle = "white";
-    ctx.fill();
+    ctx.closePath();
+    ctx.clip();
 
+    const PADDING = 12;
+
+    if (BALL_IMAGE.complete && BALL_IMAGE.naturalWidth && BALL_IMAGE.naturalHeight) {
+        ctx.drawImage(
+            BALL_IMAGE,
+            x - (ballRadius / 2) - PADDING,
+            y - (ballRadius / 2) - PADDING,
+            ballRadius + PADDING * 2,
+            ballRadius + PADDING * 2
+        );
+    }
+
+    // ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+    // ctx.fill();
+    ctx.restore();
 }
+
+draw();
 
 
 function createPaddle(x, y, width, height, color) {
