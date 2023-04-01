@@ -16,6 +16,10 @@ let globalState = {
     ball: {}
 }
 
+const BALL_IMAGE = new Image();
+BALL_IMAGE.src = 'resources/ball_icon.png';
+
+//takes in user name and disables further input
 document.getElementById("start-btn").addEventListener("click", () => {
     const name = document.getElementById("name").value;
     document.getElementById("name").style.display = 'none';
@@ -39,6 +43,7 @@ socket.on("connect", () => {
     socket.emit('newPlayer', { width: 1024, height: 512, id: playerID });
 });
 
+//update the game state on client side
 socket.on('state', (gameState) => {
 
     globalState = gameState;
@@ -48,6 +53,8 @@ let fps = 0;
 let rFps = 0;
 let lastFpsUpdate = 0;
 
+
+//clear canvas and draw elements with updated positions
 function draw() {
     const time = performance.now();
 
@@ -118,9 +125,6 @@ ctx.moveTo(512, 0);
 ctx.lineTo(512, 512);
 ctx.stroke();
 
-const BALL_IMAGE = new Image();
-BALL_IMAGE.src = 'resources/ball_icon.png';
-
 function createBall(x, y) {
     ctx.save()
     ctx.beginPath();
@@ -166,7 +170,7 @@ function createPaddle2(x, y, width, height) {
 
 }
 
-
+//handles players mo
 const keyDownHandler = (e) => {
     if (e.keyCode == 38) {
         socket.emit('keyevent', "up");

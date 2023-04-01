@@ -114,6 +114,7 @@ io.on('connection', (socket) => {
 
 });
 
+//updates player state every 1000/60 seconds
 setInterval(() => {
 
     const playerCount = Object.keys(gameState.players).length
