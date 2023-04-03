@@ -9,6 +9,7 @@ const player2 = document.getElementById("player2");
 const ballRadius = 30;
 
 const socket = io.connect(location.href);
+
 let playerID = "";
 
 let globalState = {
@@ -24,7 +25,7 @@ document.getElementById("start-btn").addEventListener("click", () => {
     const name = document.getElementById("name").value;
     document.getElementById("name").style.display = 'none';
     document.getElementById("start-btn").style.display = "none";
-    player1.innerText = name
+    player1.innerText = name;
     socket.emit('playername', `${player1.innerText} `);
 });
 
@@ -160,17 +161,7 @@ function createPaddle(x, y, width, height, color) {
 
 }
 
-function createPaddle2(x, y, width, height) {
-
-    ctx.beginPath();
-    ctx.rect(x, y, width, height);
-    ctx.fillStyle = "red";
-    ctx.fill();
-    ctx.closePath();
-
-}
-
-//handles players mo
+//handles player moves
 const keyDownHandler = (e) => {
     if (e.keyCode == 38) {
         socket.emit('keyevent', "up");

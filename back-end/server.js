@@ -5,7 +5,7 @@ const server = http.createServer(app);
 const io = require('socket.io')(server);
 const path = require('path');
 const bodyParser = require('body-parser');
-const PORT = 3080;
+const PORT = 3000;
 
 const canvas = {
     width: 1024,
@@ -81,7 +81,7 @@ io.on('connection', (socket) => {
                 name: gameState.players[socket.id].name,
             };
 
-        } else {
+        } else if (playerCount === 2) {
             gameState.players[socket.id] = {
                 x: 994,
                 y: 200,
